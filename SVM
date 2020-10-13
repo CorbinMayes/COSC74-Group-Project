@@ -3,12 +3,12 @@ import matplotlib.pyplot as plt
 from sklearn import svm, datasets
 
 # import some data to play with
-iris = datasets.load_iris()
-X = iris.data[:, :2]
+iris = datasets.load_review()
+X = review.data[:, :2]
 
 # we only take the first two features. We could
 # avoid this ugly slicing by using a two-dim dataset
-y = iris.target
+y = review.target
 
 # we create an instance of SVM and fit out data. We do not scale our
 # data since we want to plot the support vectors
@@ -26,21 +26,21 @@ Z = svc.predict(np.c_[xx.ravel(), yy.ravel()])
 Z = Z.reshape(xx.shape)
 plt.contourf(xx, yy, Z, cmap=plt.cm.Paired, alpha=0.8)
 plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.Paired)
-plt.xlabel('Sepal length')
-plt.ylabel('Sepal width')
+plt.xlabel('review')
+plt.ylabel('rating')
 plt.xlim(xx.min(), xx.max())
-plt.title('SVC with linear kernel')
+plt.title('SVC')
 plt.show()
 
 #Load Train and Test datasets
 #Identify feature and response variable(s) and values must be numeric and numpy arrays
 train=pd.read_csv('train.csv')
-train_y=train['Loan_Status']
-train_x=train.drop(["Loan_Status"],axis=1)
+train_y=train['review']
+train_x=train.drop(["review"],axis=1)
 
 test=pd.read_csv('test.csv')
-test_y=test['Loan_Status']
-test_x=test.drop(["Loan_Status"],axis=1)
+test_y=test['review']
+test_x=test.drop(["review"],axis=1)
 
 # Create Linear SVM object
 support = svm.LinearSVC(random_state=20)
