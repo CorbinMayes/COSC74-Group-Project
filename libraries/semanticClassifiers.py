@@ -20,7 +20,7 @@ from gensim import matutils
 
 from sklearn.naive_bayes import GaussianNB
 
-class NB_pred(GaussianNB):
+class semantic_NB(GaussianNB):
     semSpace=[]
     this_dict = []
     
