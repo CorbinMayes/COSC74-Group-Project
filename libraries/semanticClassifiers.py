@@ -24,9 +24,9 @@ class semantic_NB(GaussianNB):
     semSpace=[]
     this_dict = []
     
-    # reviews should be a of reviews, where each review is itself a 'cleaned'
-    # list of words (lematized, no stop words, etc). train_lbls should be
-    # binary
+    # reviews should be a list of reviews, where each review is itself a 'cleaned'
+    # list of words (lematized, no stop words, etc). train_lbls should be a
+    # boolean array
     def fit(self, train_reviews, train_lbls):
         # train a document-topic model        
         self.this_dict = Dictionary(train_reviews)
