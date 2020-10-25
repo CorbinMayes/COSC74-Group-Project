@@ -48,7 +48,31 @@ class docTopTransformer(TransformerMixin, BaseEstimator):
         
         return X_
     
+
+# similar to docTopTransformer except it takes a corpus as input and trains dictionaries and computes BOWs internally
+class doc2Bow(TransformerMixin, BaseEstimator):
         
+    def _getBOW(self,X):
+        # transform corpus (train) into a 2d array word counts (a 'bag of words')
+        bow = [self.this_dict.doc2bow(text) for text in X]
+        
+        return bow
+    
+    # takes corpus as input
+    def fit(self, X, y=None):
+        
+        # train a document-topic model        
+        self.this_dict = Dictionary(X)
+        
+        return self
+    
+    def transform(self, X, y=None):
+        bow = self._getBOW(X)
+        
+        X_ = np.transpose(matutils.corpus2dense(bow, len(self.this_dict)))
+        
+        return X_
+    
 # similar to docTopTransformer except it takes a corpus as input and trains dictionaries and computes BOWs internally
 class docTopTransformer2(TransformerMixin, BaseEstimator):
     
@@ -73,7 +97,7 @@ class docTopTransformer2(TransformerMixin, BaseEstimator):
         
         # construct a semantic model based on document-topic similarity (15-20 min for 1500k reviews?)
         self.semSpace = lsi(bow, id2word=self.this_dict, num_topics=self.d, 
-                            chunksize=10000, distributed=self.distributed)
+                            chunksize=100000, distributed=self.distributed)
         
         return self
     
@@ -88,7 +112,7 @@ class docTopTransformer2(TransformerMixin, BaseEstimator):
         X_ = topics_csr.T.toarray()
         
         return X_
-    
+
 class bigramsPhraser(TransformerMixin, BaseEstimator):
     
     def fit(self, X, y=None):
