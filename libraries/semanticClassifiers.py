@@ -32,7 +32,7 @@ class docTopTransformer(TransformerMixin, BaseEstimator):
         
         # construct a semantic model based on document-topic similarity (15-20 min for 1500k reviews?)
         self.semSpace = lsi(corpus, id2word=self.this_dict, num_topics=self.d, 
-                            chunksize=10000, distributed=self.distributed)
+                            chunksize=20000, distributed=self.distributed)
         
         return self
     
